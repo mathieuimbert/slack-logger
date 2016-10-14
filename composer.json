@@ -11,5 +11,8 @@
             "name": "Mathieu Imbert",
             "email": "mathieu.imbert@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "classmap": ["src/"]
+    }
 }
