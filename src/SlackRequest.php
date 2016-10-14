@@ -19,7 +19,7 @@ class SlackRequest
     public function post($text)
     {
 
-
+        /*
         switch ($level) {
             case 'success':
             case 'good':
@@ -39,6 +39,7 @@ class SlackRequest
             default:
                 $color = "#cccccc";
         }
+        */
 
         $payload = [
             "username" => "Flow Bot",
