@@ -1,0 +1,14 @@
+{
+    "name": "mathieuimbert/slack-logger",
+    "description": "This is a simple package that allow a PHP script to send real time to Slack.",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "Mathieu Imbert",
+            "email": "mathieu.imbert@gmail.com"
+        }
+    ]
+}
