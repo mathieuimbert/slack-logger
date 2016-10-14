@@ -1,6 +1,6 @@
 {
     "name": "mathieuimbert/slack-logger",
-    "description": "This is a simple package that allow a PHP script to send real time to Slack.",
+    "description": "This is a simple package that allow a PHP script to send real time logs to Slack.",
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^6.2",
