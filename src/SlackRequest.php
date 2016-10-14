@@ -42,8 +42,6 @@ class SlackRequest
         */
 
         $payload = [
-            "username" => "Flow Bot",
-            "icon_emoji" => ":robot_face:",
             "text" => $text
         ];
 
