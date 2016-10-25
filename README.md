@@ -1,7 +1,22 @@
 # slack-logger
+
+### Packagist
+
+[![Latest Stable Version](https://poser.pugx.org/mathieuimbert/slack-logger/v/stable)](https://packagist.org/packages/mathieuimbert/slack-logger)
+[![Latest Unstable Version](https://poser.pugx.org/mathieuimbert/slack-logger/v/unstable)](https://packagist.org/packages/mathieuimbert/slack-logger)
+[![Total Downloads](https://poser.pugx.org/mathieuimbert/slack-logger/downloads)](https://packagist.org/packages/mathieuimbert/slack-logger)
+[![License](https://poser.pugx.org/mathieuimbert/slack-logger/license)](https://packagist.org/packages/mathieuimbert/slack-logger)
+
+### Unit Tests
+
+[![Build Status](https://travis-ci.org/mathieuimbert/slack-logger.svg?branch=master)](https://travis-ci.org/mathieuimbert/slack-logger)
+[![Coverage Status](https://coveralls.io/repos/github/mathieuimbert/slack-logger/badge.svg?branch=master)](https://coveralls.io/github/mathieuimbert/slack-logger?branch=master)
+
+## Description
+
 This is a simple package that allow a PHP script to send real time logs to Slack.
 
-## Installation ##
+## Installation
 
 Installation of Slack Logger is done using [Composer](https://getcomposer.org/).
 
