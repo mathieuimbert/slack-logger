@@ -16,6 +16,8 @@
 
 This is a simple package that allow a PHP script to send real time logs to Slack.
 
+Please be aware that the repository is still in an early phase, and every new commit might not be backward compatible.
+
 ## Installation
 
 Installation of Slack Logger is done using [Composer](https://getcomposer.org/).
