@@ -13,7 +13,7 @@ class SlackLoggerTest extends TestCase
 
     public function testLog()
     {
-        $logger = new SlackLogger($_ENV['WEBHOOK_URL']);
+        $logger = new SlackLogger(getenv('WEBHOOK_URL'));
         $logger->log(LogLevel::INFO, 'Testing from PHPUnit');
     }
 }
