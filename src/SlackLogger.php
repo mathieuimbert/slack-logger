@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MathieuImbert\Slack\Logger;
+namespace MathieuImbert\SlackLogger;
 
 
 use Psr\Log\LoggerInterface;
