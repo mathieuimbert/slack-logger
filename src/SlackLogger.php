@@ -4,24 +4,47 @@
 namespace MathieuImbert\SlackLogger;
 
 
+use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 class SlackLogger implements LoggerInterface
 {
 
+    const SUPPORTED_OPTIONS = ['username', 'icon_emoji'];
+
+    /**
+     * @var string
+     */
     private $webhookUrl;
+
+    /**
+     * @var array
+     */
     private $options;
 
     /**
-     * SlackLogger constructor.
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * SlackLogger constructor
+     *
      * @param string $webhookUrl
      * @param array $options
+     * @param Client $client
      */
-    public function __construct($webhookUrl, $options = [])
+    public function __construct($webhookUrl, $options = [], Client $client = null)
     {
         $this->webhookUrl = $webhookUrl;
         $this->options = $options;
+
+        if (is_null($client)) {
+            $client = new Client();
+        }
+
+        $this->client = $client;
     }
 
     /**
@@ -150,7 +173,7 @@ class SlackLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = array())
     {
-        $request = new SlackRequest($this->webhookUrl);
+
         $text = '*' . ucfirst($level) . '* - ' . $message;
 
         if (count($context) > 0) {
@@ -160,6 +183,15 @@ class SlackLogger implements LoggerInterface
             // $context['exception']
         }
 
-        $request->post($text);
+        $payload = ['text' => $text];
+
+        foreach (self::SUPPORTED_OPTIONS as $opt) {
+            if (isset($this->options[$opt])) {
+                $payload[$opt] = $this->options[$opt];
+            }
+        }
+
+        $this->client->post($this->webhookUrl, ['json' => $payload]);
+
     }
 }
