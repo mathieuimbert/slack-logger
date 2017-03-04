@@ -2,6 +2,7 @@
     "name": "mathieuimbert/slack-logger",
     "description": "This is a simple package that allow a PHP script to send real time logs to Slack.",
     "type": "library",
+    "license": "Apache-2.0",
     "require": {
         "guzzlehttp/guzzle": "^6.2",
         "psr/log": "^1.0"
@@ -12,7 +13,9 @@
     "authors": [
         {
             "name": "Mathieu Imbert",
-            "email": "mathieu.imbert@gmail.com"
+            "email": "mathieu.imbert@gmail.com",
+            "homepage": "https://mathieuimbert.com",
+            "role": "Developer"
         }
     ],
     "autoload": {
