@@ -11,7 +11,7 @@ use Psr\Log\LogLevel;
 class SlackLogger implements LoggerInterface
 {
 
-    const SUPPORTED_OPTIONS = ['username', 'icon_emoji'];
+    const SUPPORTED_OPTIONS = array('username', 'icon_emoji');
 
     /**
      * @var string
@@ -174,16 +174,41 @@ class SlackLogger implements LoggerInterface
     public function log($level, $message, array $context = array())
     {
 
-        $text = '*' . ucfirst($level) . '* - ' . $message;
+        $fields = array();
 
-        if (count($context) > 0) {
-            $text .= "\n" . print_r($context);
+        if (!empty($context)) {
 
-            // TODO handler context exceptions
-            // $context['exception']
+            // Check if there is an exception (as required in psr3 documentation)
+            if (isset($context['exception']) && is_a($context['exception'], 'Exception')) {
+                $fields[] = array(
+                    'title' => 'Exception',
+                    'value' => get_class($context['exception']) . ': ' . $context['exception']->getMessage(),
+                    'short' => true
+                );
+
+                unset($context['exception']);
+            }
+
+            $fields[] = array(
+                'title' => 'Context',
+                'value' => json_encode($context, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT),
+                'short' => true
+            );
         }
 
-        $payload = ['text' => $text];
+        $text = '*' . ucfirst($level) . '*' . ' - ' . $message;
+
+        $payload = array(
+            'attachments' => array(
+                array(
+                    'fallback' => $message,
+                    'color' => $this->getColorForLevel($level),
+                    'text' => $text,
+                    'fields' => $fields,
+                    'mrkdwn_in' => array('text')
+                )
+            )
+        );
 
         foreach (self::SUPPORTED_OPTIONS as $opt) {
             if (isset($this->options[$opt])) {
@@ -191,7 +216,47 @@ class SlackLogger implements LoggerInterface
             }
         }
 
-        $this->client->post($this->webhookUrl, ['json' => $payload]);
+        $this->client->post($this->webhookUrl, array('json' => $payload));
+    }
 
+    /**
+     * Return the right icon for the message level
+     *
+     * @param string $level
+     * @return bool|mixed
+     */
+    protected function getIconForLevel($level)
+    {
+        $conversion = array(
+            LogLevel::INFO => ':information_source:',
+            LogLevel::NOTICE => ':memo:',
+            LogLevel::WARNING => ':warning:',
+            LogLevel::ERROR => ':exclamation:',
+            LogLevel::ALERT => ':bangbang:',
+            LogLevel::CRITICAL => ':bangbang:',
+            LogLevel::EMERGENCY => ':sos:',
+        );
+
+        return isset($conversion[$level]) ? $conversion[$level] : false;
+    }
+
+    /**
+     * @param $level
+     * @return bool|string
+     */
+    protected function getColorForLevel($level)
+    {
+        $conversion = array(
+            LogLevel::DEBUG => '',
+            LogLevel::INFO => '#439FE0',
+            LogLevel::NOTICE => '#439FE0',
+            LogLevel::WARNING => 'warning',
+            LogLevel::ERROR => 'danger',
+            LogLevel::ALERT => 'danger',
+            LogLevel::CRITICAL => 'danger',
+            LogLevel::EMERGENCY => 'danger',
+        );
+
+        return isset($conversion[$level]) ? $conversion[$level] : false;
     }
 }
