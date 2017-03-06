@@ -5,13 +5,17 @@ namespace MathieuImbert\SlackLogger;
 
 
 use GuzzleHttp\Client;
+use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 class SlackLogger implements LoggerInterface
 {
 
-    const SUPPORTED_OPTIONS = array('username', 'icon_emoji');
+    const SUPPORTED_OPTIONS = array(
+        'username',
+        'icon_emoji'
+    );
 
     /**
      * @var string
@@ -24,27 +28,27 @@ class SlackLogger implements LoggerInterface
     private $options;
 
     /**
-     * @var Client
+     * @var SlackRequest
      */
-    private $client;
+    private $request;
 
     /**
      * SlackLogger constructor
      *
      * @param string $webhookUrl
      * @param array $options
-     * @param Client $client
+     * @param RequestInterface $request
      */
-    public function __construct($webhookUrl, $options = [], Client $client = null)
+    public function __construct($webhookUrl, $options = [], RequestInterface $request = null)
     {
         $this->webhookUrl = $webhookUrl;
         $this->options = $options;
 
-        if (is_null($client)) {
-            $client = new Client();
+        if (is_null($request)) {
+            $request = new SlackRequest(new Client());
         }
 
-        $this->client = $client;
+        $this->request = $request;
     }
 
     /**
@@ -174,6 +178,21 @@ class SlackLogger implements LoggerInterface
     public function log($level, $message, array $context = array())
     {
 
+        $levels = array(
+            LogLevel::EMERGENCY,
+            LogLevel::ALERT,
+            LogLevel::CRITICAL,
+            LogLevel::ERROR,
+            LogLevel::WARNING,
+            LogLevel::NOTICE,
+            LogLevel::INFO,
+            LogLevel::DEBUG
+        );
+
+        if (!in_array($level, $levels)) {
+            throw new InvalidArgumentException();
+        }
+
         $fields = array();
 
         if (!empty($context)) {
@@ -216,7 +235,7 @@ class SlackLogger implements LoggerInterface
             }
         }
 
-        $this->client->post($this->webhookUrl, array('json' => $payload));
+        $this->request->post($this->webhookUrl, $payload);
     }
 
     /**
@@ -258,5 +277,13 @@ class SlackLogger implements LoggerInterface
         );
 
         return isset($conversion[$level]) ? $conversion[$level] : false;
+    }
+
+    /**
+     * @return RequestInterface|SlackRequest
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

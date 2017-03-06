@@ -19,6 +19,8 @@
         }
     ],
     "autoload": {
-        "classmap": ["src/"]
+        "psr-4": {
+            "MathieuImbert\\SlackLogger\\": "src/"
+        }
     }
 }
