@@ -35,3 +35,14 @@ composer require mathieuimbert/slack-logger
 $logger = new \MathieuImbert\Slack\Logger\SlackLogger('https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx');
 $logger->warning('This a not test of the emergency broadcast system, this is the real thing');
 ```
+
+### Options ###
+
+You can customize the name and the icon of your logger in the incoming webhook configuration, or you can do it from SlackLogger by passing the right options to he constructor:
+
+```php
+$logger = new \MathieuImbert\SlackLogger\SlackLogger(
+    'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxx',
+    array('username' => 'My Slack Logger', 'icon_emoji' => ':cop:')
+);
+```
