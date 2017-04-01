@@ -12,6 +12,10 @@
 [![Build Status](https://travis-ci.org/mathieuimbert/slack-logger.svg?branch=master)](https://travis-ci.org/mathieuimbert/slack-logger)
 [![Coverage Status](https://coveralls.io/repos/github/mathieuimbert/slack-logger/badge.svg?branch=master)](https://coveralls.io/github/mathieuimbert/slack-logger?branch=master)
 
+### Code Quality
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7c2c822d-857f-4b69-874d-d4e78b9d1e24/big.png)](https://insight.sensiolabs.com/projects/7c2c822d-857f-4b69-874d-d4e78b9d1e24)
+
 ## Description
 
 This is a simple package that allow a PHP script to send real time logs to Slack.
